@@ -1,0 +1,202 @@
+/* Overwrite Main CSS */
+
+header .info,
+header .nav,
+header .nav__link,
+header .brand__text,
+header .share__embed,
+.main .hero {
+  background: #2f2f2f;
+  color: #fff;
+  font-weight: 400;
+  padding: 10px 15px 0 15px;
+}
+
+.main .hero {
+  background-image: url('../img/7PViZPsA.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: -200px;
+  box-shadow: inset 6px 0px 12px #000;
+}
+
+.share__icon {
+  width: 4em;
+  height: 2em;
+}
+
+.info {
+  padding-bottom: 40px !important;
+}
+
+.info__link {
+  color: #fff;
+}
+
+.main .hero .hero__label,
+.main .hero .hero__description {
+  color: #000;
+}
+
+header .nav {
+  padding-bottom: 35px;
+}
+
+header .navbar__icon {
+  filter: invert(100%);
+}
+
+.main .hero {
+  border-radius: 0px 0px 50px 50px;
+  padding-right: 0;
+}
+
+.hero-img {
+  height: 35vw;
+  max-width: 100%;
+  margin-right: 0;
+  margin-left: auto;
+  position: relative;
+  top: 60px;
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .hero-img {
+    top: 50px;
+  }
+}
+
+@media (min-width: 992px) {
+  .hero-img {
+    display: block;
+  }
+  
+  .hero__content {
+    width: 30em !important;
+    margin-bottom: 0 !important;
+    opacity: .8;
+  }
+  
+  .banner__collection {
+    display: block !important;
+  }
+}
+
+.banner__collection {
+  overflow: visible;
+  display: none;
+}
+
+.hero__content {
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 35px;
+}
+
+.rentals__button {
+  margin-left: auto !important;
+  cursor: pointer;
+}
+
+.rentals__button a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* SE Styles */
+
+#renderCars {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+#renderCars .se-car-item {
+  width: 400px;
+  margin: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+#renderCars .se-car-item h4 {
+  font-size: 14px !important;
+}
+
+#renderCars .se-car-item h5 {
+  text-align: right;
+  margin-right: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+#renderCars .se-car-item a {
+  padding: 10px 15px;
+  color: #e43432;
+  background-color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#Browse-Motorcycle-Rentals-Link {
+  cursor: not-allowed;
+}
+
+.nav__links {
+  width: 100%;
+  align-items: center;
+}
+
+.brand__text {
+  display: none;
+}
+
+#renderCars .se-car-item a:hover {
+  position: relative;
+  bottom: 1px;
+  right: 1px;
+  box-shadow: 2px 2px 12px #220808de;
+}
+
+#renderCars .se-car-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #e43432;
+  color: #fff;
+}
+
+#brandsList {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+}
+
+#brandsList li {
+  padding: 10px 10px;
+}
+
+#brandsList img {
+  width: auto;
+  max-height: 75px;
+}
+
+.reviews__logo {
+  height: auto !important;
+}
+
+.reviews__youtube button {
+  color: #8d8d8d;
+  font-size: .9em;
+  text-decoration: underline;
+  background-color: transparent;
+}
