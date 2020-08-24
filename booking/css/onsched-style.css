@@ -175,8 +175,9 @@
 }
 
 .resource-item img {
-  height: 75px;
-  max-height: 300px
+  max-height: 300px;
+  min-width: 100px;
+  height: auto;
 }
 
 .resource-item h5 {

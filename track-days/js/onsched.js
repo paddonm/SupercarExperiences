@@ -1,6 +1,6 @@
-var your_client_id = 'sbox1596821277';
-var your_location_id = 'd00c00bb-469f-4477-a049-afc0f525a13a';
-    var onsched = OnSched(your_client_id, "sbox");
+var your_client_id = 'client1595722680';
+var your_location_id = '7ff05bd7-ead4-4d72-9ed9-56f80c1e655a';
+    var onsched = OnSched(your_client_id, "live");
 
 function scrollToResource(id) {
     let elResource = document.getElementById(id)
@@ -50,9 +50,9 @@ elResources.addEventListener("clickResource", function(e) {
 })
 
 var dates = [];
-var startDate = moment('2020-08-15');
+var startDate = moment('2020-09-27');
 var i;
-for (i = 0;i <= 1;i++) {
+for (i = 0;i < 1;i++) {
     dates.push(moment(startDate).add(i, 'days').format('LL'));
 }
 
@@ -111,12 +111,19 @@ function getResource(resource) {
         elAvailability.className = 'active'
         elAvailability.scrollIntoView({behavior: 'smooth'});
     }
-    if (resource.groupId === "230")
+    console.log(resource.groupId)
+    if (resource.groupId === "207") {
         elResourcesList.appendChild(el);
-    if (resource.groupId === "231")
+        console.log(resource.groupId)
+    }
+    if (resource.groupId === "208") {
         elResourcesList2.appendChild(el);
-    if (resource.groupId === "232")
+        console.log(resource.groupId)
+    }
+    if (resource.groupId === "209") {
         elResourcesList3.appendChild(el);
+        console.log(resource.groupId)
+    }
 }
 
 dates.map(getDate);    

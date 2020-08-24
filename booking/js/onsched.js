@@ -1,6 +1,6 @@
-var your_client_id = 'sbox1596821277';
-var your_location_id = 'd00c00bb-469f-4477-a049-afc0f525a13a';
-    var onsched = OnSched(your_client_id, "sbox");
+var your_client_id = 'client1595722680';
+var your_location_id = '7ff05bd7-ead4-4d72-9ed9-56f80c1e655a';
+    var onsched = OnSched(your_client_id, "live");
 
 // Get instance of elements to use for creating elements
 var elements = onsched.elements();
@@ -100,11 +100,11 @@ function getResource(resource) {
         elAvailability.className = 'active'
         elAvailability.scrollIntoView({behavior: 'smooth'});
     }
-    if (resource.groupId === "230")
+    if (resource.groupId === ("230" || "207"))
         elResourcesList.appendChild(el);
-    if (resource.groupId === "231")
+    if (resource.groupId === ("231" || "208"))
         elResourcesList2.appendChild(el);
-    if (resource.groupId === "232")
+    if (resource.groupId === ("232" || "209"))
         elResourcesList3.appendChild(el);
 }
 
