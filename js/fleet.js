@@ -134,7 +134,7 @@ function renderFleet() {
     elCarItemFoot.appendChild(elCarItemTitle);
     elCarItemFoot.appendChild(elCarItemBtn);
   
-    elCarItem.appendChild(elCarItemTier);
+    //elCarItem.appendChild(elCarItemTier);
     elCarItem.appendChild(elCarItemImg);
     elRenderCars.appendChild(elCarItem);
     elCarItem.appendChild(elCarItemFoot);

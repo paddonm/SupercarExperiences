@@ -208,3 +208,10 @@ header .navbar__icon {
 .supercar-logo {
   min-width: 168.83px;
 }
+
+.se-car-item img {
+  min-width: 400px;
+  min-height: 300px;
+  width: auto;
+  height: auto;
+}

@@ -17,7 +17,7 @@ var tzOffset = -now.getTimezoneOffset();
 
 // Parameters relate to GET availability endpoint and PUT appointments endpoint in OnSched API
 var availabilityParams = {
-    locationId: your_location_id, serviceId: '51080', resourceId: '', tzOffset: tzOffset, date: new Date(), completeBooking: "BK"
+    locationId: your_location_id, serviceId: '4991', resourceId: '', tzOffset: tzOffset, date: new Date(), completeBooking: "BK"
 };
 
 // Use privacy fields to force a customer to accept terms and/or view the privacy policy
@@ -30,17 +30,10 @@ var resourcesOptions = {};
 var resources = elements.create("resources", resourcesParams, resourcesOptions);
 var elResources = document.getElementById("resources");
 var elResourcesList = document.getElementById("myResourceList");
-var elResourcesList2 = document.getElementById("myResourceList2");
-var elResourcesList3 = document.getElementById("myResourceList3");
 
 elResources.addEventListener("getResources", function (e) {
     // returns the resources list from the Get /consumer/v1/resources API endpoint in e.detail
     elResourcesList.classList.add('shadow');
-    elResourcesList2.classList.add('shadow');
-    elResourcesList3.classList.add('shadow');
-    elResourcesList.innerHTML = "<h1><span class='red'>Tier</span> 1</h1>";
-    elResourcesList2.innerHTML = "<h1><span class='red'>Tier</span> 2</h1>";
-    elResourcesList3.innerHTML = "<h1><span class='red'>Custom</span> Tier</h1>";
     e.detail.data.map(getResource);
     elResourcesList.scrollIntoView({behavior: 'smooth'});
 });
@@ -53,22 +46,19 @@ var dates = [];
 var startDate = moment('2020-09-27');
 var i;
 for (i = 0;i < 1;i++) {
-    dates.push(moment(startDate).add(i, 'days').format('LL'));
+    dates.push(moment(startDate).add(i, 'days').format('LLLL').slice(0, -9));
 }
 
 var elDates = document.getElementById("dates");
 
 function selectDate(date, el) {
     elResourcesList.innerHTML = "";
-    elResourcesList2.innerHTML = "";
-    elResourcesList3.innerHTML = "";
     elResourcesList.classList.remove('shadow');
-    elResourcesList2.classList.remove('shadow');
-    elResourcesList3.classList.remove('shadow');
     availabilityParams.date = new Date(moment(date));
     elAvailability.innerHTML = "";
     elAvailability.className = "";
     resources.mount('resources');
+    console.log('this is happening')
 }
 
 function getDate(date) {
@@ -111,19 +101,7 @@ function getResource(resource) {
         elAvailability.className = 'active'
         elAvailability.scrollIntoView({behavior: 'smooth'});
     }
-    console.log(resource.groupId)
-    if (resource.groupId === "207") {
-        elResourcesList.appendChild(el);
-        console.log(resource.groupId)
-    }
-    if (resource.groupId === "208") {
-        elResourcesList2.appendChild(el);
-        console.log(resource.groupId)
-    }
-    if (resource.groupId === "209") {
-        elResourcesList3.appendChild(el);
-        console.log(resource.groupId)
-    }
+    elResourcesList.appendChild(el);
 }
 
 dates.map(getDate);    
