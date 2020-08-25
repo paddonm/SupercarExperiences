@@ -148,6 +148,10 @@ header .navbar__icon {
   cursor: not-allowed;
 }
 
+.nav__link.active {
+  font-weight: 800;
+}
+
 .nav__links {
   width: 100%;
   align-items: center;
@@ -199,4 +203,8 @@ header .navbar__icon {
   font-size: .9em;
   text-decoration: underline;
   background-color: transparent;
+}
+
+.supercar-logo {
+  min-width: 168.83px;
 }
