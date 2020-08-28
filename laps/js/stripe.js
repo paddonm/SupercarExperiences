@@ -1,5 +1,5 @@
-//var stripe = Stripe('pk_live_qlF40gzBq45fNa9IQ4TulHeJ');
-var stripe = Stripe('pk_test_TrpRcCP2CIUDXBlhvXq8h2Lm');
+//var stripe = Stripe('pk_test_TrpRcCP2CIUDXBlhvXq8h2Lm');
+var stripe = Stripe('pk_live_pychpZQBLwwhp1tvGO1hCzxQ00Xef8u0oq');
 var elements = stripe.elements();
 
 // Redirect to checkout option

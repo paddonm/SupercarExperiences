@@ -1,5 +1,5 @@
-//var stripe = Stripe('pk_live_qlF40gzBq45fNa9IQ4TulHeJ');
-var stripe = Stripe('pk_test_51HHE7GIMLqIUPdeXOOLW5iIi1YajmkSIxNoVtR6z0KKXeg9nyR2oKJ8SltyIlrct5Wd2Jo89jdZY4BU9IzDxHmuI00Vxsj7ulc');
+//var stripe = Stripe('pk_test_51HHE7GIMLqIUPdeXOOLW5iIi1YajmkSIxNoVtR6z0KKXeg9nyR2oKJ8SltyIlrct5Wd2Jo89jdZY4BU9IzDxHmuI00Vxsj7ulc');
+var stripe = Stripe('pk_live_pychpZQBLwwhp1tvGO1hCzxQ00Xef8u0oq');
 var elements = stripe.elements();
 
 // Redirect to checkout option
