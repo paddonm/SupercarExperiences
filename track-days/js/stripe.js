@@ -7,19 +7,34 @@ var elements = stripe.elements();
 function checkout(appt) {
   var prices = [
     {
-      sessions: 1,
-      groupId: '230',
-      priceCode: 'price_1HHEE8IMLqIUPdeXpCmW9p2l'
+      laps: 2,
+      groupId: '208',
+      priceCode: 'price_1HKzTQIMLqIUPdeXSo10El5q'
     },
     {
-      sessions: 1,
-      groupId: '231',
-      priceCode: 'price_1HHEDtIMLqIUPdeX0esAUEOX'
+      laps: 4,
+      groupId: '208',
+      priceCode: 'price_1HKzTQIMLqIUPdeXYbiR6jzz'
     },
     {
-      sessions: 1,
-      groupId: '232',
-      priceCode: 'price_1HHEDWIMLqIUPdeXzo3Y2Sh6'
+      laps: 6,
+      groupId: '208',
+      priceCode: 'price_1HKzTQIMLqIUPdeXjfyRA35C'
+    },
+    {
+      laps: 8,
+      groupId: '208',
+      priceCode: 'price_1HKzTQIMLqIUPdeX1kzglgdQ'
+    },
+    {
+      laps: 10,
+      groupId: '208',
+      priceCode: 'price_1HKzTQIMLqIUPdeXnBsgzaGb'
+    },
+    {
+      laps: 12,
+      groupId: '208',
+      priceCode: 'price_1HKzTRIMLqIUPdeXNuAva4Lu'
     },
   ]
   
