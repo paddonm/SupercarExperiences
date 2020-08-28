@@ -33,8 +33,10 @@ var elResourcesList = document.getElementById("myResourceList");
 
 elResources.addEventListener("getResources", function (e) {
     // returns the resources list from the Get /consumer/v1/resources API endpoint in e.detail
+    console.log('resources resp', e.detail);
     elResourcesList.classList.add('shadow');
-    e.detail.data.map(getResource);
+
+    e.detail.data.sort((a, b) => (a.sortKey > b.sortKey) ? 1 : -1).map(getResource);
     elResourcesList.scrollIntoView({behavior: 'smooth'});
 });
 
@@ -85,6 +87,8 @@ function addActive(element) {
         element.classList.add("active");
 }
 
+var elLaps = document.getElementById('lapsSelection');
+var laps = [2,4,6,8,10,12];
 
 function getResource(resource) {
     var el = document.createElement('li');
@@ -96,22 +100,30 @@ function getResource(resource) {
     //var elResourceButton = this.document.getElementsByTagName("BUTTON")[0];
     el.onclick = function() {
         addActive(el);
-        availabilityParams.resourceId = resource.id
-        availability.mount("availability");
-        elAvailability.className = 'active'
-        elAvailability.scrollIntoView({behavior: 'smooth'});
+        availabilityParams.resourceId = resource.id;
+        laps.map(buildLapsSelection);
+        elLaps.scrollIntoView({behavior: 'smooth'});
     }
     elResourcesList.appendChild(el);
 }
 
-dates.map(getDate);    
+dates.map(getDate);
+
+function buildLapsSelection(lap) {
+    var lapItem = document.createElement('DIV');
+    lapItem.innerText = `${lap} laps`;
+    lapItem.className = 'lapItem';
+    lapItem.onclick = function() {
+        //addActive(lapItem);
+        availability.mount("availability");
+        elAvailability.className = 'active'
+        elAvailability.scrollIntoView({behavior: 'smooth'});
+    }
+    elLaps.appendChild(lapItem);
+}
         
 elPayment = document.getElementById("payment");
 elConfDesc = document.getElementById("confirmation-description");
-
-elAvailability.addEventListener("clickTime", function (e) {
-    console.log("timmmmmmeeeeeee wwwaassssss cllliiiiicccckkkkkeeddddd", e.detail);
-});
 
 elAvailability.addEventListener("bookingConfirmation", function (e) {
     confirmationParams = { appointment: e.detail };
