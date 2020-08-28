@@ -1,6 +1,6 @@
 var your_client_id = 'client1595722680';
 var your_location_id = '7ff05bd7-ead4-4d72-9ed9-56f80c1e655a';
-    var onsched = OnSched(your_client_id, "live");
+var onsched = OnSched(your_client_id, "live");
 
 function scrollToResource(id) {
     let elResource = document.getElementById(id)
@@ -17,7 +17,14 @@ var tzOffset = -now.getTimezoneOffset();
 
 // Parameters relate to GET availability endpoint and PUT appointments endpoint in OnSched API
 var availabilityParams = {
-    locationId: your_location_id, serviceId: '4991', resourceId: '', tzOffset: tzOffset, date: new Date(), completeBooking: "BK"
+    locationId: your_location_id, 
+    serviceId: '4991', 
+    resourceId: '', 
+    tzOffset: tzOffset, 
+    date: new Date(), 
+    completeBooking: "BK", 
+    duration: numOfLaps ? numOfLaps * 10 : 20, 
+    interval: 20
 };
 
 // Use privacy fields to force a customer to accept terms and/or view the privacy policy
@@ -31,18 +38,17 @@ var resources = elements.create("resources", resourcesParams, resourcesOptions);
 var elResources = document.getElementById("resources");
 var elResourcesList = document.getElementById("myResourceList");
 
+//elAvailability.addEventListener("getAvailability", function (e) {console.log('>>>>>>>>>>>>>>')});
 elResources.addEventListener("getResources", function (e) {
     // returns the resources list from the Get /consumer/v1/resources API endpoint in e.detail
-    console.log('resources resp', e.detail);
     elResourcesList.classList.add('shadow');
 
-    e.detail.data.sort((a, b) => (a.sortKey > b.sortKey) ? 1 : -1).map(getResource);
+    e.detail.data.filter(car => car.sortKey < 1000)
+                 .sort((a, b) => (a.sortKey > b.sortKey) ? 1 : -1)
+                 .map(getResource);
+
     elResourcesList.scrollIntoView({behavior: 'smooth'});
 });
-
-elResources.addEventListener("clickResource", function(e) {
-    elResources.innerHTML = "";
-})
 
 var dates = [];
 var startDate = moment('2020-09-27');
@@ -58,9 +64,9 @@ function selectDate(date, el) {
     elResourcesList.classList.remove('shadow');
     availabilityParams.date = new Date(moment(date));
     elAvailability.innerHTML = "";
+    elLaps.innerHTML = "";
     elAvailability.className = "";
     resources.mount('resources');
-    console.log('this is happening')
 }
 
 function getDate(date) {
@@ -88,38 +94,50 @@ function addActive(element) {
 }
 
 var elLaps = document.getElementById('lapsSelection');
+var elLapsList = document.createElement('UL');
 var laps = [2,4,6,8,10,12];
+var currentTier = '208'
 
 function getResource(resource) {
-    var el = document.createElement('li');
-    el.innerHTML = `<div id="onsched_resource_${resource.id}" class="resource-item">
+    var elResourceItem = document.createElement('li');
+    elResourceItem.innerHTML = `<div id="onsched_resource_${resource.id}" class="resource-item">
                         <img src="${resource.imageUrl}" alt="${resource.name}" />
                         <h5>${resource.name}</h5>
                         <button>Select vehicle</button>
                     </div>`
     //var elResourceButton = this.document.getElementsByTagName("BUTTON")[0];
-    el.onclick = function() {
-        addActive(el);
+    elResourceItem.onclick = function() {
+        elLaps.innerHTML = "<h3>Number of laps</h3>";
+        elLaps.appendChild(elLapsList);
+        addActive(elResourceItem);
         availabilityParams.resourceId = resource.id;
+        currentTier = resource.groupId;
         laps.map(buildLapsSelection);
         elLaps.scrollIntoView({behavior: 'smooth'});
     }
-    elResourcesList.appendChild(el);
+    elResourcesList.appendChild(elResourceItem);
 }
 
 dates.map(getDate);
 
 function buildLapsSelection(lap) {
-    var lapItem = document.createElement('DIV');
+    var lapItem = document.createElement('LI');
     lapItem.innerText = `${lap} laps`;
     lapItem.className = 'lapItem';
     lapItem.onclick = function() {
         //addActive(lapItem);
+        updateLaps(lap);
         availability.mount("availability");
         elAvailability.className = 'active'
         elAvailability.scrollIntoView({behavior: 'smooth'});
     }
-    elLaps.appendChild(lapItem);
+
+    if (lap > 8) {
+        if (currentTier !== '209')
+            elLapsList.appendChild(lapItem);
+    }
+    else
+        elLapsList.appendChild(lapItem);
 }
         
 elPayment = document.getElementById("payment");
