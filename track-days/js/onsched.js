@@ -23,7 +23,7 @@ var availabilityParams = {
     tzOffset: tzOffset, 
     date: new Date(), 
     completeBooking: "BK", 
-    duration: numOfLaps ? numOfLaps * 10 : 20, 
+    duration: 20, 
     interval: 20
 };
 
@@ -94,6 +94,7 @@ function addActive(element) {
 }
 
 var elLaps = document.getElementById('lapsSelection');
+var elLapsSelection = document.createElement('UL');
 var elLapsList = document.createElement('UL');
 var laps = [2,4,6,8,10,12];
 var currentTier = '208'
@@ -112,7 +113,7 @@ function getResource(resource) {
         addActive(elResourceItem);
         availabilityParams.resourceId = resource.id;
         currentTier = resource.groupId;
-        laps.map(buildLapsSelection);
+        buildSessionVsLaps();
         elLaps.scrollIntoView({behavior: 'smooth'});
     }
     elResourcesList.appendChild(elResourceItem);
@@ -125,7 +126,6 @@ function buildLapsSelection(lap) {
     lapItem.innerText = `${lap} laps`;
     lapItem.className = 'lapItem';
     lapItem.onclick = function() {
-        //addActive(lapItem);
         updateLaps(lap);
         availability.mount("availability");
         elAvailability.className = 'active'
@@ -138,6 +138,44 @@ function buildLapsSelection(lap) {
     }
     else
         elLapsList.appendChild(lapItem);
+}
+
+function buildSessionVsLaps() {
+    var sItem = document.createElement('LI');
+    var lItem = document.createElement('LI');
+    let sessionPrice = '$399'
+    let lapPrice = '$119'
+
+    if (currentTier === '207') {
+        sessionPrice = '$499'
+        lapPrice = '$169'
+    }
+
+    sItem.innerHTML = 
+        `
+            <h5>Session</h5>
+            <p>Book a 15 minute session</p>
+            <span class="price">${sessionPrice}</span>
+        `
+    lItem.innerHTML = 
+        `
+            <h5>Laps</h5>
+            <p>Book by number of Laps</p>
+            <span class="price">Starting at ${lapPrice}</span>
+        `
+
+    sItem.onclick = function() {
+        availability.mount("availability");
+        elAvailability.className = 'active'
+        elAvailability.scrollIntoView({behavior: 'smooth'});
+    }
+
+    lItem.onclick = function() {
+        laps.map(buildSessionVsLaps);        
+    }
+
+    elLapsSelection.appendChild(sItem);
+    elLapsSelection.appendChild(lItem);
 }
         
 elPayment = document.getElementById("payment");

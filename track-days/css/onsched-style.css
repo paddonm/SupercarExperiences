@@ -270,6 +270,10 @@
   100% { transform: rotate(360deg); }
 }
 
+#lapsSelection {
+  padding-top: 50px;
+}
+
 #lapsSelection ul {
   display: flex;
   flex-wrap: wrap;
