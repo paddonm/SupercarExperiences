@@ -270,17 +270,17 @@
   100% { transform: rotate(360deg); }
 }
 
-#lapsSelection {
+#bookingTypeSelection, #laps, #sessions {
   padding-top: 50px;
 }
 
-#lapsSelection ul {
+#bookingTypeSelection ul, #laps, #sessions ul {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 50px;
 }
 
-#lapsSelection ul li {
+#bookingTypeSelection ul li, #laps li, #sessions ul li {
   padding: 5px;
   background-color: #df342f;
   margin: 5px auto;

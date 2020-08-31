@@ -10,6 +10,12 @@ function updateLaps(num) {
 
 const prices = [
   {
+    laps: 0,
+    groupId: '208',
+    tier: '2',
+    priceCode: 'price_1HLbHUIMLqIUPdeX9eRpFByX'
+  },
+  {
     laps: 2,
     groupId: '208',
     tier: '2',
@@ -44,6 +50,12 @@ const prices = [
     groupId: '208',
     tier: '2',
     priceCode: 'price_1HKzTRIMLqIUPdeXNuAva4Lu'
+  },
+  {
+    laps: 0,
+    groupId: '207',
+    tier: '1',
+    priceCode: 'price_1HLbHUIMLqIUPdeXH8yYf5sl'
   },
   {
     laps: 2,

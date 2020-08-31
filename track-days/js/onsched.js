@@ -65,6 +65,7 @@ function selectDate(date, el) {
     availabilityParams.date = new Date(moment(date));
     elAvailability.innerHTML = "";
     elLaps.innerHTML = "";
+    elSessions.innerHTML = "";
     elAvailability.className = "";
     resources.mount('resources');
 }
@@ -93,9 +94,11 @@ function addActive(element) {
         element.classList.add("active");
 }
 
-var elLaps = document.getElementById('lapsSelection');
-var elLapsSelection = document.createElement('UL');
-var elLapsList = document.createElement('UL');
+var elBookingTypeSelection = document.getElementById('bookingTypeSelection');
+var selectionList = document.createElement('UL');
+var elLaps = document.getElementById('laps');
+var elSessions = document.getElementById('sessions');
+
 var laps = [2,4,6,8,10,12];
 var currentTier = '208'
 
@@ -108,43 +111,36 @@ function getResource(resource) {
                     </div>`
     //var elResourceButton = this.document.getElementsByTagName("BUTTON")[0];
     elResourceItem.onclick = function() {
-        elLaps.innerHTML = "<h3>Number of laps</h3>";
-        elLaps.appendChild(elLapsList);
         addActive(elResourceItem);
         availabilityParams.resourceId = resource.id;
         currentTier = resource.groupId;
-        buildSessionVsLaps();
-        elLaps.scrollIntoView({behavior: 'smooth'});
+        if (currentTier !== '209')
+            buildBookingTypeSelection();
+        else {
+            elBookingTypeSelection.innerHTML = "";
+            elAvailability.innerHTML = "";
+            elSessions.innerHTML = "";
+            elLaps.innerHTML = "";
+            laps.map(buildLapsSelection);  
+        }
+        elBookingTypeSelection.scrollIntoView({behavior: 'smooth'});
     }
     elResourcesList.appendChild(elResourceItem);
 }
 
 dates.map(getDate);
 
-function buildLapsSelection(lap) {
-    var lapItem = document.createElement('LI');
-    lapItem.innerText = `${lap} laps`;
-    lapItem.className = 'lapItem';
-    lapItem.onclick = function() {
-        updateLaps(lap);
-        availability.mount("availability");
-        elAvailability.className = 'active'
-        elAvailability.scrollIntoView({behavior: 'smooth'});
-    }
+function buildBookingTypeSelection() {
+    elLaps.innerHTML = "";
+    elSessions.innerHTML = "";
+    elAvailability.innerHTML = "";
 
-    if (lap > 8) {
-        if (currentTier !== '209')
-            elLapsList.appendChild(lapItem);
-    }
-    else
-        elLapsList.appendChild(lapItem);
-}
-
-function buildSessionVsLaps() {
     var sItem = document.createElement('LI');
     var lItem = document.createElement('LI');
+
     let sessionPrice = '$399'
     let lapPrice = '$119'
+    elBookingTypeSelection.innerHTML = "<h3>Type of Track Day</h3>";
 
     if (currentTier === '207') {
         sessionPrice = '$499'
@@ -165,18 +161,47 @@ function buildSessionVsLaps() {
         `
 
     sItem.onclick = function() {
+        elLaps.innerHTML = "";
+        elSessions.innerHTML = "";
+        elAvailability.innerHTML = "";
+        availability.mount("availability");
+        elAvailability.className = 'active';
+        updateLaps(0);
+        elAvailability.scrollIntoView({behavior: 'smooth'});
+    }
+    
+    lItem.onclick = function() {
+        elAvailability.innerHTML = "";
+        elSessions.innerHTML = "";
+        elLaps.innerHTML = "";
+        laps.map(buildLapsSelection);  
+    }
+
+    selectionList.appendChild(sItem);
+    selectionList.appendChild(lItem);
+    elBookingTypeSelection.appendChild(selectionList);
+}
+
+function buildLapsSelection(lap) {
+    var lapItem = document.createElement('LI');
+
+    lapItem.innerText = `${lap} laps`;
+    lapItem.className = 'lapItem';
+    lapItem.onclick = function() {
+        updateLaps(lap);
         availability.mount("availability");
         elAvailability.className = 'active'
         elAvailability.scrollIntoView({behavior: 'smooth'});
     }
-
-    lItem.onclick = function() {
-        laps.map(buildSessionVsLaps);        
+    if (lap > 8) {
+        if (currentTier !== '209')
+            elLaps.appendChild(lapItem);
     }
-
-    elLapsSelection.appendChild(sItem);
-    elLapsSelection.appendChild(lItem);
+    else
+        elLaps.appendChild(lapItem);
 }
+
+
         
 elPayment = document.getElementById("payment");
 elConfDesc = document.getElementById("confirmation-description");
