@@ -129,7 +129,7 @@ function checkout(appt) {
   function checkNumOfLaps(price) {
     return price.laps === numOfLaps;
   }
-
+  console.log(prices, prices.filter(checkGroupId), prices.filter(checkNumOfLaps))
   var price = prices.filter(checkGroupId).filter(checkNumOfLaps)[0].priceCode;
 
   stripe
