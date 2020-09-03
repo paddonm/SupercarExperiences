@@ -1,7 +1,7 @@
 var your_client_id = 'client1595722680';
 var your_location_id = '7ff05bd7-ead4-4d72-9ed9-56f80c1e655a';
 var onsched = OnSched(your_client_id, "live");
-
+window.buildCustomerForm();
 function scrollToResource(id) {
     let elResource = document.getElementById(id)
     
@@ -12,8 +12,7 @@ function scrollToResource(id) {
 // Get instance of elements to use for creating elements
 var elements = onsched.elements();
 
-var now = new Date();
-var tzOffset = -now.getTimezoneOffset();
+var tzOffset = -240;
 
 // Parameters relate to GET availability endpoint and PUT appointments endpoint in OnSched API
 var availabilityParams = {
@@ -114,8 +113,14 @@ function getResource(resource) {
         addActive(elResourceItem);
         availabilityParams.resourceId = resource.id;
         currentTier = resource.groupId;
-        if (currentTier !== '209')
+        if (currentTier !== '209') {
+            elLaps.innerHTML = "";
+            elSessions.innerHTML = "";
+            elAvailability.innerHTML = "";
+            elBookingTypeSelection.innerHTML = "";
+            selectionList.innerHTML = "";
             buildBookingTypeSelection();
+        }
         else {
             elBookingTypeSelection.innerHTML = "";
             elAvailability.innerHTML = "";
@@ -131,10 +136,6 @@ function getResource(resource) {
 dates.map(getDate);
 
 function buildBookingTypeSelection() {
-    elLaps.innerHTML = "";
-    elSessions.innerHTML = "";
-    elAvailability.innerHTML = "";
-
     var sItem = document.createElement('LI');
     var lItem = document.createElement('LI');
 
@@ -210,21 +211,6 @@ elAvailability.addEventListener("bookingConfirmation", function (e) {
     confirmationParams = { appointment: e.detail };
     confirmation.update(confirmationParams);
     window.checkout(e.detail);
-    
-    
-    //elPayment.scrollIntoView({behavior: 'smooth'});
-    // elPayment.classList.remove('hide');
-    // elPayment.classList.add('shadow');
-    // elConfDesc.innerHTML = "Your " + 
-    //                        confirmationParams.appointment.serviceName + 
-    //                        " with the " + 
-    //                        confirmationParams.appointment.resourceName + 
-    //                        " is being held for " + 
-    //                        moment(confirmationParams.appointment.dateInternational).format('ll') + 
-    //                        ". Please complete the payment to confirm this time."
-    
-    
-    //confirmation.mount("confirmation");
 });
 
 var confirmationParams = {};
@@ -287,5 +273,5 @@ else if (success === 'false') {
         `
     });
     
-    appointment.mount("appointment");   
+    appointment.mount("appointment");  
 }
