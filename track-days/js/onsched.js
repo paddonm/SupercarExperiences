@@ -1,7 +1,8 @@
+//MITCHY
 var your_client_id = 'client1595722680';
 var your_location_id = '7ff05bd7-ead4-4d72-9ed9-56f80c1e655a';
 var onsched = OnSched(your_client_id, "live");
-window.buildCustomerForm();
+
 function scrollToResource(id) {
     let elResource = document.getElementById(id)
     
@@ -21,9 +22,10 @@ var availabilityParams = {
     resourceId: '', 
     tzOffset: tzOffset, 
     date: new Date(), 
-    completeBooking: "BK", 
+    completeBooking: "RS", 
     duration: 20, 
-    interval: 20
+    interval: 20,
+    customerId: null
 };
 
 // Use privacy fields to force a customer to accept terms and/or view the privacy policy
@@ -165,10 +167,10 @@ function buildBookingTypeSelection() {
         elLaps.innerHTML = "";
         elSessions.innerHTML = "";
         elAvailability.innerHTML = "";
-        availability.mount("availability");
+        buildCustomerForm();
         elAvailability.className = 'active';
         updateLaps(0);
-        elAvailability.scrollIntoView({behavior: 'smooth'});
+        customerForm.scrollIntoView({behavior: 'smooth'});
     }
     
     lItem.onclick = function() {
@@ -190,9 +192,9 @@ function buildLapsSelection(lap) {
     lapItem.className = 'lapItem';
     lapItem.onclick = function() {
         updateLaps(lap);
-        availability.mount("availability");
+        buildCustomerForm();
         elAvailability.className = 'active'
-        elAvailability.scrollIntoView({behavior: 'smooth'});
+        customerForm.scrollIntoView({behavior: 'smooth'});
     }
     if (lap > 8) {
         if (currentTier !== '209')
@@ -202,8 +204,28 @@ function buildLapsSelection(lap) {
         elLaps.appendChild(lapItem);
 }
 
+// Customer Element
+var customerParams = { locationId: your_location_id, customerId: '', email: '', customerIM: {} };
+var customerOptions = {};
+var customer = elements.create("customer", customerParams, customerOptions);
+var elCustomer = document.getElementById('customer');
 
-        
+const findCreateCustomer = (id) => {
+    if (id) {
+        availabilityParams.customerId = id;
+        availability.mount('availability');
+        elAvailability.scrollIntoView({behavior: 'smooth'});
+    }
+}
+
+elCustomer.addEventListener("postCustomer", function (e) {
+    findCreateCustomer(e.detail.id)
+});
+
+elCustomer.addEventListener("getCustomer", function (e) {
+    findCreateCustomer(e.detail.id)
+});
+
 elPayment = document.getElementById("payment");
 elConfDesc = document.getElementById("confirmation-description");
 
@@ -224,54 +246,66 @@ var customerObject = {
 };
 
 const queryParams = new URLSearchParams(window.location.search);
-const success = queryParams.get('success')
+const success = queryParams.get('success') === "true"
 const apptId = queryParams.get('apptId')
+const confNum = queryParams.get('confirmation')
 
-if (success === 'true' && apptId) {
-    // Successful payment
-    elConfirmationHeader.innerHTML = '<h1>Thanks for booking!</h1>' + elConfirmationHeader.innerHTML
-    elConfirmationHeader.className = 'shadow'
-
-    var appointmentParams = { locationId: your_location_id, appointmentId: apptId };
-    var appointmentOptions = {};
-    var appointment = elements.create("appointment", appointmentParams, appointmentOptions);
-    var elAppointment = document.getElementById("appointment");
+const updateConfDetails = (e) => {
+    elConfirmationHeader.innerHTML = '';
     
-    elAppointment.addEventListener("getAppointment", function (e) {
-        var confirmationParams = { appointment: e.detail };
-        var confirmationOptions = {};
-        var confirmation = elements.create("confirmation", confirmationParams, confirmationOptions);
-        confirmation.mount("confirmation");
-        elConfirmationHeader.innerHTML = elConfirmationHeader.innerHTML + `<img src="${e.detail.resourceImageUrl}" />`
-    });
+    if (confNum) {
+        if (e.detail.confirmationNumber !== confNum) {
+            // Cancel appt
+            success = false;
+        }
+    }
 
+    let elTitle = document.createElement('H1');
+    let elSubtitle = document.createElement('P');
+    let elImage = document.createElement('IMG');
+    let elDetails = document.createElement('P');
+    let elStart = document.createElement('P');
     
-    appointment.mount("appointment");   
+    elImage.src = e.detail.resourceImageUrl;
+    elDetails.innerHTML = `${e.detail.serviceName} ${e.detail.duration} min - ${e.detail.resourceName}`
+
+    if (success) {
+        elTitle.innerText = 'Thanks for booking!';
+        elSubtitle.innerHTML = `Your appointment was confirmed, an email was sent to ${e.detail.email} with more information. <br></br>Please see the details below:`;
+        elStart.innerHTML = `See you on ${moment(e.detail.startDateTime).format('llll')}!`;
+    }
+    else {
+        elTitle.innerText = 'Sorry, payment was not completed!';
+        elSubtitle.innerText = 'Your appointment was unconfirmed, please see the details below:';
+        elStart.innerHTML = `This appointment is no longer being held, to try again, please select another date below.`;
+    }
+
+    elConfirmationHeader.appendChild(elTitle);
+    elConfirmationHeader.appendChild(elSubtitle);
+    elConfirmationHeader.appendChild(elImage);
+    elConfirmationHeader.appendChild(elDetails);
+    elConfirmationHeader.appendChild(elStart);
 }
-else if (success === 'false') {
-    // Failed payment
-    elConfirmationHeader.className = 'shadow'
 
-    var appointmentParams = { locationId: your_location_id, appointmentId: apptId };
-    var appointmentOptions = {};
-    var appointment = elements.create("appointment", appointmentParams, appointmentOptions);
-    var elAppointment = document.getElementById("appointment");
+var appointmentParams = { locationId: your_location_id, appointmentId: apptId };
+var appointmentOptions = { confirm: success };
+var appointment = elements.create("appointment", appointmentParams, appointmentOptions);
+var elAppointment = document.getElementById("appointment");
+
+elAppointment.addEventListener("getAppointment", function (e) {
+    updateConfDetails(e);
+});
+
+elAppointment.addEventListener("confirmAppointment", function (e) {
+    updateConfDetails(e);
+});
+
+if (apptId) {
+    elConfirmationHeader.className = 'shadow'
     
-    elAppointment.addEventListener("getAppointment", function (e) {
-        elConfirmationHeader.innerHTML = `
-            <div>
-                <h1>Sorry, payment was not completed!</h1>
-                
-                <p>Your appointment was unconfirmed, please see the details below</p>
-                
-                <p>${moment(e.detail.startDateTime).format('llll')}</p>
-                
-                <img src="${e.detail.resourceImageUrl}" />
-                <p>${e.detail.serviceName} ${e.detail.duration} min - ${e.detail.resourceName}
-                <p>This appointment is no longer being held, to try again, please select another date below.</p>
-            </div>
-        `
-    });
+    if (!confNum) {
+        appointmentOptions.confirm = false;
+    }
     
-    appointment.mount("appointment");  
+    appointment.mount("appointment");
 }

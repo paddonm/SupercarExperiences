@@ -129,7 +129,7 @@ function checkout(appt) {
   function checkNumOfLaps(price) {
     return price.laps === numOfLaps;
   }
-  console.log(prices, prices.filter(checkGroupId), prices.filter(checkNumOfLaps))
+
   var price = prices.filter(checkGroupId).filter(checkNumOfLaps)[0].priceCode;
 
   stripe
@@ -140,15 +140,14 @@ function checkout(appt) {
       ],
       customerEmail: appt.email,
       mode: 'payment',
-      successUrl: window.origin + window.location.pathname + `?success=true&apptId=${appt.id}`,
+      successUrl: window.origin + window.location.pathname + `?success=true&apptId=${appt.id}&confirmation=${appt.confirmationNumber}`,
       cancelUrl: window.origin + window.location.pathname + `?success=false&apptId=${appt.id}`
     })
-    .then(function(result) {
+    .then(function(result) {console.log('failing')
       // If `redirectToCheckout` fails due to a browser or network
       // error, display the localized error message to your customer
       // using `result.error.message`.
       alert('Something went wrong, please try again.');
-      console.log(result)
     });
 }
 

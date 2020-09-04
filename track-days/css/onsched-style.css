@@ -204,6 +204,7 @@
 
 #availability {
   min-height: 1px;
+  padding-top: 50px;
 }
 
 #availability.active {
@@ -215,12 +216,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
 }
 
 #confirmation-header p {
   width: 100%;
   max-width: 640px;
   color: rgb(99,99,99);
+  margin: 20px auto;
 }
 
 #confirmation-header.shadow {

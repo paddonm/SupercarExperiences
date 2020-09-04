@@ -1,15 +1,18 @@
 const formFields = [
   {
     name: 'firstName',
-    label: 'First Name'
+    label: 'First Name',
+    required: true
   },
   {
     name: 'lastName',
-    label: 'Last Name'
+    label: 'Last Name',
+    required: true
   },
   {
     name: 'email',
-    label: 'Email'
+    label: 'Email',
+    required: true
   },
   {
     name: 'phoneNumber',
@@ -19,27 +22,39 @@ const formFields = [
 
 var customerForm = document.getElementById('customerForm');
 
-function buildCustomerForm() {
+const buildCustomerForm = () => {
   customerForm.innerHTML = '';
+
+  customerForm.innerHTML = '<h4>Enter contact information:</h4>'
+
   formFields.map(field => 
-    buildCustomerField({label: field.label, name: field.name})
+    buildCustomerField(field)
   );
   
   var submitBtn = document.createElement('BUTTON');
   submitBtn.setAttribute('type', 'submit');
-  submitBtn.innerText = 'Submit'
+  submitBtn.innerText = 'Find available times'
   customerForm.appendChild(submitBtn);
 }
 
-function buildCustomerField(field) {
+const buildCustomerField = (field) => {
   var stringField = document.createElement('DIV');
   var stringInput = document.createElement('INPUT');
   var stringLabel = document.createElement('LABEL');
+  var elError = document.createElement('SPAN');
   
+  elError.innerText = '*'
+  
+  stringField.className = 'renderField';
   stringInput.setAttribute('placeholder', field.label);
   stringInput.setAttribute('name', field.name);
   stringInput.setAttribute('id', field.name);
+  
   stringLabel.innerText = field.label;
+  console.log('req', field.label, field.required)
+  if (field.required)
+    stringLabel.appendChild(elError);
+
   stringField.appendChild(stringLabel);
   stringField.appendChild(stringInput);
 
@@ -61,26 +76,59 @@ customerForm.onsubmit = function(e) {
     phoneNumber: elPhoneNumberField.value,
   }
 
-  console.log(values)
   let errors = validateCustomerForm(values)
+  
   if (Object.keys(errors).length) {
-    console.log(Object.keys(errors).length)
+    const errFields = Object.keys(errors).filter(element => Object.keys(values).includes(element));
+    const validFields = Object.keys(values).filter(element => !Object.keys(errors).includes(element));
+    
+    errFields.map( 
+      intersected => 
+      document.getElementById(intersected).className = 'error'
+    );
+    
+    validFields.map( 
+      intersected => 
+      document.getElementById(intersected).className = ''
+    );
+  }
+  else {
+    // Successful
+    Object.keys(values).map( validField => document.getElementById(validField).className = '' );
+    
+    customerParams.email = values.email;
+    customerParams.customerIM.firstName = values.firstName;
+    customerParams.customerIM.lastName = values.lastName;
+    customerParams.customerIM.email = values.email;
+    customerParams.customerIM.contact = {mobilePhone: values.phoneNumber};
+    console.log('customerObject, customerParams', customerObject, customerParams);
+
+    customer.mount('customer');
   }
 }
 
-function validateCustomerForm(values) {
+const validateCustomerForm = (values) => {
   const errors = {}
 
   if (!values.email) {
-    errors.elEmailField = 'Required'
+    errors.email = 'Required'
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.elEmailField = 'Invalid email address'
+    errors.email = 'Invalid email address'
   }
-  if (values.phone) {
-    if (values.phone.length > 15) {
-      errors.phone = 'Must 15 digits or less'
-    } else if (!(/[0-9]/i.test(values.phone))) {
-      errors.phone = 'Valid number required'
+  
+  if (!values.firstName) {
+    errors.firstName = 'Required'
+  }
+  
+  if (!values.lastName) {
+    errors.lastName = 'Required'
+  }  
+
+  if (values.phoneNumber) {
+    if (values.phoneNumber.length > 15) {
+      errors.phoneNumber = 'Must 15 digits or less'
+    } else if (!(/[0-9]/i.test(values.phoneNumber))) {
+      errors.phoneNumber = 'Valid number required'
     } 
   }
 

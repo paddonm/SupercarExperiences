@@ -1,0 +1,61 @@
+#customerForm {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+#customerForm .renderField {
+  width: 100%;
+  padding: 5px;
+}
+
+#customerForm h4 {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+#customerForm .renderField input {
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  margin: 5px 0;
+  width: 100%;
+  padding: 5px;
+}
+
+#customerForm .renderField label {
+  margin-top: 15px;
+}
+
+#customerForm .renderField label span {
+  color: #df342f;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  position: relative;
+  top: -1px;
+  left: 6px;
+}
+
+#customerForm .renderField .error {
+  border-color: #df342f !important;
+}
+
+#customerForm button {
+  margin-top: 15px;
+  background-color: #df342f;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+#customerForm button:hover {
+  background-color: #000;
+}
+
+@media (min-width: 768px) {
+  #customerForm .renderField {
+    max-width: 50%;
+  }
+}
