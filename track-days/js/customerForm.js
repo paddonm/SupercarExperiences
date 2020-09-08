@@ -20,12 +20,13 @@ const formFields = [
   },
 ]
 
-var customerForm = document.getElementById('customerForm');
+var elCustomerForm = document.getElementById('customerForm');
+var customerForm = document.createElement('FORM');
 
 const buildCustomerForm = () => {
-  customerForm.innerHTML = '';
+  elCustomerForm.innerHTML = '';
 
-  customerForm.innerHTML = '<h4>Enter contact information:</h4>'
+  elCustomerForm.innerHTML = '<h3>Contact information</h3>';
 
   formFields.map(field => 
     buildCustomerField(field)
@@ -35,6 +36,7 @@ const buildCustomerForm = () => {
   submitBtn.setAttribute('type', 'submit');
   submitBtn.innerText = 'Find available times'
   customerForm.appendChild(submitBtn);
+  elCustomerForm.appendChild(customerForm)
 }
 
 const buildCustomerField = (field) => {
@@ -100,6 +102,7 @@ customerForm.onsubmit = function(e) {
     customerParams.customerIM.firstName = values.firstName;
     customerParams.customerIM.lastName = values.lastName;
     customerParams.customerIM.email = values.email;
+    customerParams.customerIM.type = 0;
     customerParams.customerIM.contact = {mobilePhone: values.phoneNumber};
     console.log('customerObject, customerParams', customerObject, customerParams);
 

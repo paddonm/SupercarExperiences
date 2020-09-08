@@ -273,17 +273,17 @@
   100% { transform: rotate(360deg); }
 }
 
-#bookingTypeSelection, #laps, #sessions {
+#bookingTypeSelection, #laps ul, #sessions {
   padding-top: 50px;
 }
 
-#bookingTypeSelection ul, #laps, #sessions ul {
+#bookingTypeSelection ul, #laps ul, #sessions ul {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 50px;
 }
 
-#bookingTypeSelection ul li, #laps li, #sessions ul li {
+#bookingTypeSelection ul li, #laps ul li, #sessions ul li {
   padding: 5px;
   background-color: #df342f;
   margin: 5px auto;

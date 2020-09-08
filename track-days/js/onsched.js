@@ -18,7 +18,7 @@ var tzOffset = -240;
 // Parameters relate to GET availability endpoint and PUT appointments endpoint in OnSched API
 var availabilityParams = {
     locationId: your_location_id, 
-    serviceId: '4991', 
+    serviceId: '', 
     resourceId: '', 
     tzOffset: tzOffset, 
     date: new Date(), 
@@ -48,7 +48,7 @@ elResources.addEventListener("getResources", function (e) {
                  .sort((a, b) => (a.sortKey > b.sortKey) ? 1 : -1)
                  .map(getResource);
 
-    elResourcesList.scrollIntoView({behavior: 'smooth'});
+    scrollToEl(elResourcesList);
 });
 
 var dates = [];
@@ -128,9 +128,9 @@ function getResource(resource) {
             elAvailability.innerHTML = "";
             elSessions.innerHTML = "";
             elLaps.innerHTML = "";
-            laps.map(buildLapsSelection);  
+            buildLapsSelection(laps)
         }
-        elBookingTypeSelection.scrollIntoView({behavior: 'smooth'});
+        scrollToEl(elBookingTypeSelection);
     }
     elResourcesList.appendChild(elResourceItem);
 }
@@ -164,44 +164,62 @@ function buildBookingTypeSelection() {
         `
 
     sItem.onclick = function() {
+        availabilityParams.serviceId = '4991';
         elLaps.innerHTML = "";
         elSessions.innerHTML = "";
         elAvailability.innerHTML = "";
         buildCustomerForm();
         elAvailability.className = 'active';
         updateLaps(0);
-        customerForm.scrollIntoView({behavior: 'smooth'});
+        scrollToEl(customerForm);
     }
     
     lItem.onclick = function() {
         elAvailability.innerHTML = "";
         elSessions.innerHTML = "";
-        elLaps.innerHTML = "";
-        laps.map(buildLapsSelection);  
+        buildLapsSelection()
+        scrollToEl(elLaps);
     }
-
+    
     selectionList.appendChild(sItem);
     selectionList.appendChild(lItem);
     elBookingTypeSelection.appendChild(selectionList);
 }
 
-function buildLapsSelection(lap) {
-    var lapItem = document.createElement('LI');
+function buildLapsSelection() {
+    const elLapsHeader = document.createElement('H3');
+    const elLapsList = document.createElement('UL');
+    
+    elLaps.innerHTML = "";
 
-    lapItem.innerText = `${lap} laps`;
-    lapItem.className = 'lapItem';
-    lapItem.onclick = function() {
-        updateLaps(lap);
-        buildCustomerForm();
-        elAvailability.className = 'active'
-        customerForm.scrollIntoView({behavior: 'smooth'});
+    elLapsHeader.innerText = 'Number of laps';
+    elLaps.appendChild(elLapsHeader);
+
+    function addLapItem(lap) {
+        var lapItem = document.createElement('LI');
+    
+        availabilityParams.serviceId = '5064';
+        
+        lapItem.innerText = `${lap} laps`;
+        lapItem.className = 'lapItem';
+        lapItem.onclick = function() {
+            updateLaps(lap);
+            buildCustomerForm();
+            elAvailability.className = 'active'
+            scrollToEl(customerForm);
+        }
+    
+        if (lap > 8) {
+            if (currentTier !== '209')
+                elLapsList.appendChild(lapItem);
+        }
+        else
+            elLapsList.appendChild(lapItem);
+        
+        elLaps.appendChild(elLapsList);
     }
-    if (lap > 8) {
-        if (currentTier !== '209')
-            elLaps.appendChild(lapItem);
-    }
-    else
-        elLaps.appendChild(lapItem);
+
+    laps.map(addLapItem)
 }
 
 // Customer Element
@@ -214,7 +232,7 @@ const findCreateCustomer = (id) => {
     if (id) {
         availabilityParams.customerId = id;
         availability.mount('availability');
-        elAvailability.scrollIntoView({behavior: 'smooth'});
+        scrollToEl(elAvailability);
     }
 }
 
