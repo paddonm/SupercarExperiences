@@ -1,123 +1,11 @@
 //var stripe = Stripe('pk_test_51HHE7GIMLqIUPdeXOOLW5iIi1YajmkSIxNoVtR6z0KKXeg9nyR2oKJ8SltyIlrct5Wd2Jo89jdZY4BU9IzDxHmuI00Vxsj7ulc');
-var stripe = Stripe('pk_live_51HHE7GIMLqIUPdeXiIEV1nLdn9PMJsyPPomx5uvJCqwYS5Z2gyFUsVneI1V7eoLyIk8DNgfjDLXSvWxmvtiUFPtK00teFw6h7c');
-var elements = stripe.elements();
+// var elements = Stripe('pk_live_51HHE7GIMLqIUPdeXiIEV1nLdn9PMJsyPPomx5uvJCqwYS5Z2gyFUsVneI1V7eoLyIk8DNgfjDLXSvWxmvtiUFPtK00teFw6h7c').elements();
 
 var numOfLaps = 2
 
 function updateLaps(num) {
   numOfLaps = num;
 }
-
-const prices = [
-  {
-    laps: 0,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HLbHUIMLqIUPdeX9eRpFByX'
-  },
-  {
-    laps: 2,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HKzTQIMLqIUPdeXSo10El5q'
-  },
-  {
-    laps: 4,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HL1ieIMLqIUPdeXeB42UNnv'
-  },
-  {
-    laps: 6,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HKzTQIMLqIUPdeXjfyRA35C'
-  },
-  {
-    laps: 8,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HKzTQIMLqIUPdeX1kzglgdQ'
-  },
-  {
-    laps: 10,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HKzTQIMLqIUPdeXnBsgzaGb'
-  },
-  {
-    laps: 12,
-    groupId: '208',
-    tier: '2',
-    priceCode: 'price_1HKzTRIMLqIUPdeXNuAva4Lu'
-  },
-  {
-    laps: 0,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HLbHUIMLqIUPdeXH8yYf5sl'
-  },
-  {
-    laps: 2,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeX1nF1kPuh'
-  },
-  {
-    laps: 4,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeXdRRVaDQl'
-  },
-  {
-    laps: 6,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeXOSoiZmal'
-  },
-  {
-    laps: 8,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeXwugiMegP'
-  },
-  {
-    laps: 10,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeXC7BEqlOS'
-  },
-  {
-    laps: 12,
-    groupId: '207',
-    tier: '1',
-    priceCode: 'price_1HL18eIMLqIUPdeX6mOmB7HY'
-  },
-  {
-    laps: 2,
-    groupId: '209',
-    tier: 'custom',
-    priceCode: 'price_1HL1mjIMLqIUPdeXKRGiJebQ'
-  },
-  {
-    laps: 4,
-    groupId: '209',
-    tier: 'custom',
-    priceCode: 'price_1HL1mjIMLqIUPdeXmZiM72rS'
-  },
-  {
-    laps: 6,
-    groupId: '209',
-    tier: 'custom',
-    priceCode: 'price_1HL1nAIMLqIUPdeXkoBKTKnV'
-  },
-  {
-    laps: 8,
-    groupId: '209',
-    tier: 'custom',
-    priceCode: 'price_1HL1nQIMLqIUPdeX5gNFvNtF'
-  },
-]
 
 // Redirect to checkout option
 function checkout(appt) {
@@ -132,7 +20,7 @@ function checkout(appt) {
 
   var price = prices.filter(checkGroupId).filter(checkNumOfLaps)[0].priceCode;
 
-  stripe
+  Stripe('pk_live_51HHE7GIMLqIUPdeXiIEV1nLdn9PMJsyPPomx5uvJCqwYS5Z2gyFUsVneI1V7eoLyIk8DNgfjDLXSvWxmvtiUFPtK00teFw6h7c')
     .redirectToCheckout({
       lineItems: [
         // Replace with the ID of your price

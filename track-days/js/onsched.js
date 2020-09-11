@@ -22,7 +22,7 @@ var availabilityParams = {
     resourceId: '', 
     tzOffset: tzOffset, 
     date: new Date(), 
-    completeBooking: "RS", 
+    completeBooking: "IN", 
     duration: 20, 
     interval: 20,
     customerId: null
@@ -199,8 +199,13 @@ function buildLapsSelection() {
         var lapItem = document.createElement('LI');
     
         availabilityParams.serviceId = '5064';
+
+        let tierPrices = prices.filter(price => price.groupId === currentTier)
+        console.log('tierPrices, prices, currentTier', tierPrices, prices, currentTier);
+        let lapItemPrice = tierPrices.filter(price => price.laps === lap)[0].price
+        console.log('lapItemPrice', lapItemPrice, lap);
         
-        lapItem.innerText = `${lap} laps`;
+        lapItem.innerText = `${lap} laps - ${lapItemPrice}`;
         lapItem.className = 'lapItem';
         lapItem.onclick = function() {
             updateLaps(lap);
@@ -306,7 +311,7 @@ const updateConfDetails = (e) => {
 }
 
 var appointmentParams = { locationId: your_location_id, appointmentId: apptId };
-var appointmentOptions = { confirm: success };
+var appointmentOptions = { book: success };
 var appointment = elements.create("appointment", appointmentParams, appointmentOptions);
 var elAppointment = document.getElementById("appointment");
 
@@ -318,12 +323,16 @@ elAppointment.addEventListener("confirmAppointment", function (e) {
     updateConfDetails(e);
 });
 
+elAppointment.addEventListener("bookingConfirmation", function (e) {
+    updateConfDetails(e);
+});
+
 if (apptId) {
     elConfirmationHeader.className = 'shadow'
     
     if (!confNum) {
-        appointmentOptions.confirm = false;
+        appointmentOptions.book = false;
     }
-    
+    console.log('appointmentOptions', appointmentOptions)
     appointment.mount("appointment");
 }

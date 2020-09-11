@@ -25,6 +25,7 @@ var customerForm = document.createElement('FORM');
 
 const buildCustomerForm = () => {
   elCustomerForm.innerHTML = '';
+  customerForm.innerHTML = '';
 
   elCustomerForm.innerHTML = '<h3>Contact information</h3>';
 
